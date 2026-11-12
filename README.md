@@ -33,10 +33,11 @@ A proposta é demonstrar uma experiência simples e objetiva, facilitando o aces
 ## 🛠️ Tecnologias
 
 * HTML5
-* CSS3
-* JavaScript
-* Google Fonts
-* WhatsApp Click to Chat
+* CSS3 — estilos e responsividade
+* JavaScript (ES6+) — interatividade e lógica da página
+* Google Fonts — tipografia
+* WhatsApp Click to Chat — direcionamento de pedidos
+* APIs nativas do navegador, como `Date` e recursos de mídia/tema do CSS
 
 ---
 

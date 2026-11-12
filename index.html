@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CST Supermercado</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: encarte de supermercado. Hero com lista de compras e conversa de exemplo, ofertas em etiquetas de preço, passo a passo, entrega. */
+:root{
+  --bg:#F4F7F0;
+  --surface:#FFFFFF;
+  --soft:#E8F0E4;
+  --ink:#10261B;
+  --muted:#4A6054;
+  --line:#D9E3D5;
+  --brand:#14573A;
+  --on-brand:#FFFFFF;
+  --wa:#22B85A;
+  --on-wa:#04200E;
+  --tag:#FFD93B;
+  --on-tag:#241C00;
+  --bubble-out:#D5F5DF;
+  --focus:#0E7A43;
+  --shadow:rgba(16,38,27,.45);
+  --font-display:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif;
+  --font-body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1711;--surface:#13231A;--soft:#1A3225;--ink:#E8F1EA;--muted:#9DB3A5;--line:#25402F;
+    --brand:#0F3C29;--on-brand:#FFFFFF;--wa:#2FD36B;--on-wa:#04200E;--tag:#FFD93B;--on-tag:#241C00;
+    --bubble-out:#1D5B38;--focus:#6EE7A0;--shadow:rgba(0,0,0,.7);color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1711;--surface:#13231A;--soft:#1A3225;--ink:#E8F1EA;--muted:#9DB3A5;--line:#25402F;
+  --brand:#0F3C29;--on-brand:#FFFFFF;--wa:#2FD36B;--on-wa:#04200E;--tag:#FFD93B;--on-tag:#241C00;
+  --bubble-out:#1D5B38;--focus:#6EE7A0;--shadow:rgba(0,0,0,.7);color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--font-body);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:30}
+h1,h2,h3{font-family:var(--font-display);margin:0;line-height:1.08;letter-spacing:-.015em;text-wrap:balance}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.eyebrow{font:700 .78rem var(--font-body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* botões */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:.85rem 1.4rem;border-radius:999px;background:var(--wa);color:var(--on-wa);font:700 1rem var(--font-body);text-decoration:none;border:0;cursor:pointer;transition:transform .15s,filter .15s;text-align:center}
+.btn:hover{filter:brightness(1.07);transform:translateY(-1px)}
+.btn.lg{padding:1.05rem 1.75rem;font-size:1.05rem}
+.btn.sm{padding:.55rem 1rem;font-size:.92rem}
+.btn svg{flex:none}
+
+/* topo */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:62px}
+.brand{display:flex;align-items:center;gap:12px;font:800 1.5rem var(--font-display);letter-spacing:-.02em;text-decoration:none;min-width:0}
+.brand .logo{width:42px;height:42px;border-radius:12px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;flex:none}
+.brand .nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* hero */
+.hero{padding-block:3rem 4rem}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:3rem;align-items:center}
+.hero h1{font-size:clamp(2.4rem,7vw,4.3rem);font-weight:800;margin:.9rem 0 1.1rem}
+.wordmark{display:block;width:fit-content;max-width:100%;margin:0 0 1rem;padding:.35rem 1rem .4rem;background:var(--tag);color:var(--on-tag);font:800 clamp(1.5rem,5vw,2.3rem)/1 var(--font-display);letter-spacing:-.02em;border-radius:10px;transform:rotate(-2deg)}
+.hero .sub{font-size:1.2rem;color:var(--muted);max-width:34ch}
+.hero .cta{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.25rem;margin-top:1.8rem}
+.status{display:inline-flex;align-items:center;gap:.5rem;font-weight:600;font-size:.95rem;color:var(--muted)}
+.status i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+.status.open i{background:var(--wa);box-shadow:0 0 0 4px color-mix(in srgb,var(--wa) 28%,transparent)}
+
+.list{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.25rem 1.25rem 1.1rem;box-shadow:0 22px 40px -26px var(--shadow);min-width:0}
+.list-head{display:flex;justify-content:space-between;align-items:baseline;gap:1rem}
+.list-head h2{font-size:1.15rem}
+.list ul{margin-top:.7rem}
+.list li{display:grid;grid-template-columns:auto 1fr;gap:.8rem;align-items:center;padding:.55rem 0;border-bottom:1px dashed var(--line)}
+.qty{font:700 .85rem var(--font-body);background:var(--soft);padding:.15rem .5rem;border-radius:6px;min-width:3.4rem;text-align:center;font-variant-numeric:tabular-nums}
+.chat{display:grid;gap:.5rem;margin-top:1rem}
+.bubble{max-width:90%;padding:.55rem .85rem;border-radius:14px;font-size:.93rem}
+.bubble.out{justify-self:end;background:var(--bubble-out);border-top-right-radius:3px}
+.bubble.in{background:var(--soft);border-top-left-radius:3px}
+
+/* vantagens */
+.perks{background:var(--brand);color:var(--on-brand)}
+.perks ul{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem 2rem;padding-block:1.6rem}
+.perks li{display:flex;gap:.9rem;align-items:flex-start;min-width:0}
+.perks svg{flex:none;margin-top:.15rem;color:var(--tag)}
+.perks strong{display:block;font:700 1.05rem var(--font-display)}
+.perks span{font-size:.95rem;opacity:.88}
+
+/* ofertas */
+section.block{padding-block:4rem}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:.5rem 2rem;margin-bottom:2rem}
+.sec-head h2{font-size:clamp(1.8rem,4.5vw,2.7rem);font-weight:800;margin-top:.5rem}
+.sec-head p{color:var(--muted);max-width:40ch}
+.sectors{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem 3rem;align-items:start}
+.sector{min-width:0;border-top:4px solid var(--brand);padding-top:.9rem}
+.sector h3{font-size:1.5rem;margin-bottom:.4rem}
+.item{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.7rem .6rem;margin-inline:-.6rem;border-bottom:1px solid var(--line);text-decoration:none;border-radius:8px;transition:background .15s}
+.item:hover{background:var(--soft)}
+.item .info{min-width:0}
+.item .nm{display:block;font-weight:600}
+.item .un{display:block;font-size:.85rem;color:var(--muted)}
+.price{position:relative;flex:none;display:inline-flex;align-items:flex-start;gap:.15rem;background:var(--tag);color:var(--on-tag);padding:.3rem .7rem .3rem 1.35rem;font-family:var(--font-display);font-weight:800;line-height:1;font-variant-numeric:tabular-nums;clip-path:polygon(11px 0,100% 0,100% 100%,11px 100%,0 50%);border-radius:0 6px 6px 0}
+.price::before{content:"";position:absolute;left:11px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;background:var(--surface)}
+.price .rs{font-size:.72rem;margin-top:.22rem;font-weight:700}
+.price .int{font-size:1.55rem;letter-spacing:-.02em}
+.price .ct{font-size:.85rem;margin-top:.12rem}
+.more{margin-top:2.5rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1rem 2rem;padding:1.4rem 1.6rem;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.more h3{font-size:1.3rem}
+.more p{color:var(--muted);margin-top:.25rem}
+
+/* passo a passo */
+.steps-sec{background:var(--soft)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.steps li{min-width:0}
+.steps .n{display:grid;place-items:center;width:3.2rem;height:3.2rem;border-radius:50%;background:var(--tag);color:var(--on-tag);font:800 1.5rem var(--font-display);margin-bottom:1rem}
+.steps h3{font-size:1.35rem;margin-bottom:.45rem}
+.steps p{color:var(--muted)}
+.center{display:flex;justify-content:center;margin-top:2.5rem}
+
+/* entrega */
+.deliv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:2.5rem 3rem}
+.deliv section{min-width:0;border-top:4px solid var(--brand);padding-top:1rem}
+.deliv h3{font-size:1.35rem;margin-bottom:.8rem}
+.deliv dl{display:grid;grid-template-columns:auto 1fr;gap:.35rem 1rem;margin:0}
+.deliv dt{font-weight:700}
+.deliv dd{margin:0;color:var(--muted)}
+.deliv li{color:var(--muted);padding-left:1.1rem;position:relative;margin-bottom:.4rem}
+.deliv li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--brand)}
+.deliv li b{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chips li{padding:.25rem .75rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:.92rem;color:var(--ink);margin:0}
+.chips li::before{display:none}
+.chips li{padding-left:.75rem}
+.note{margin-top:.8rem;font-size:.92rem;color:var(--muted)}
+
+/* rodapé */
+footer{background:var(--brand);color:var(--on-brand);padding-block:3rem 6rem}
+.foot{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:2rem}
+.foot>div{min-width:0}
+.foot h3{font-size:1.4rem;margin-bottom:.6rem}
+.foot h4{margin:0 0 .5rem;font:700 .78rem var(--font-body);letter-spacing:.1em;text-transform:uppercase;opacity:.75}
+.foot p{opacity:.9}
+.legal{margin-top:2rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.22);font-size:.85rem;opacity:.8}
+
+.float{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:25;box-shadow:0 12px 26px -10px rgba(0,0,0,.55);padding:.95rem 1.3rem}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr;gap:2.5rem}
+  .perks ul{grid-template-columns:1fr}
+  .sectors{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr}
+  .hero{padding-block:2rem 3rem}
+  section.block{padding-block:3rem}
+}
+@media (max-width:480px){
+  .hide-sm{display:none}
+  .btn.lg{width:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .btn,.item{transition:none}
+  .btn:hover{transform:none}
+}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#topo" aria-label="Início">
+      <span class="logo" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2.2l2.1 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19.5 8H6.1"/><circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/></svg>
+      </span>
+      <span class="nm" data-nome>CST Supermercado</span>
+    </a>
+    <a class="btn sm" data-wa="pedido" href="https://wa.me/5574999999999" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg>
+      <span>Pedir<span class="hide-sm"> no WhatsApp</span></span>
+    </a>
+  </div>
+</header>
+
+<main id="topo">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="wordmark" data-nome>CST Supermercado</p>
+        <span class="status" id="status" hidden><i></i><span></span></span>
+        <h1>Seu mercado completo, sem sair de casa.</h1>
+        <p class="sub">Monte sua lista, envie pelo WhatsApp e receba suas compras ainda hoje. Produtos frescos, preço justo e pagamento só na entrega.</p>
+        <div class="cta">
+          <a class="btn lg" data-wa="pedido" href="https://wa.me/5574999999999" target="_blank" rel="noopener noreferrer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg>
+            Fazer meu pedido pelo WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="list" aria-label="Exemplo de lista de compras e conversa">
+        <div class="list-head"><h2>Sua lista</h2><span class="eyebrow">Exemplo</span></div>
+        <ul>
+          <li><span class="qty">2 kg</span><span>Banana prata</span></li>
+          <li><span class="qty">1 kg</span><span>Peito de frango</span></li>
+          <li><span class="qty">1 un</span><span>Arroz tipo 1, 5 kg</span></li>
+          <li><span class="qty">2 un</span><span>Detergente líquido</span></li>
+        </ul>
+        <div class="chat">
+          <p class="bubble out">Olá! Gostaria de fazer meu pedido de mercado.</p>
+          <p class="bubble in">Pedido recebido. Total dos itens: R$ 59,16. Entrega ainda hoje.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="perks">
+    <div class="wrap">
+      <ul>
+        <li>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h11v10H2zM13 9h4l3 3v4h-7z"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/></svg>
+          <div><strong>Entrega no mesmo dia</strong><span>Pedidos feitos até as <span data-corte>16</span>h chegam hoje.</span></div>
+        </li>
+        <li>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.8 2.8L16.5 9"/></svg>
+          <div><strong>Produtos selecionados</strong><span>Qualidade e frescor conferidos em cada item.</span></div>
+        </li>
+        <li>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h3"/></svg>
+          <div><strong>Pague na entrega</strong><span>Pix ou cartão, só quando receber.</span></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="block" id="ofertas">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Encarte da semana</span>
+          <h2>Ofertas da semana</h2>
+        </div>
+        <p>Toque em um produto para pedir pelo WhatsApp. Válidas até <span id="validade">domingo</span>, enquanto durarem os estoques.</p>
+      </div>
+      <div class="sectors" id="sectors"></div>
+
+      <div class="more">
+        <div>
+          <h3>Não encontrou o que procura?</h3>
+          <p>Peça qualquer item do mercado pelo WhatsApp. Nós separamos para você.</p>
+        </div>
+        <a class="btn" data-wa="naolista" href="https://wa.me/5574999999999" target="_blank" rel="noopener noreferrer">Pedir um produto que não está na lista</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block steps-sec" id="como-pedir">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Passo a passo</span>
+          <h2>Como fazer seu pedido</h2>
+        </div>
+      </div>
+      <ol class="steps">
+        <li>
+          <div class="n">1</div>
+          <h3>Monte sua lista de compras</h3>
+          <p>Anote o que precisa, com as quantidades. Vale usar o bloco de notas do celular ou tirar uma foto da lista de papel.</p>
+        </li>
+        <li>
+          <div class="n">2</div>
+          <h3>Clique no botão e envie pelo WhatsApp</h3>
+          <p>Mande a lista e o endereço de entrega. Nossa equipe confirma os itens, o valor total e o horário.</p>
+        </li>
+        <li>
+          <div class="n">3</div>
+          <h3>Receba em casa e pague na entrega</h3>
+          <p>Seu pedido chega separado e conferido. Você paga só quando receber, no Pix ou no cartão.</p>
+        </li>
+      </ol>
+      <div class="center">
+        <a class="btn lg" data-wa="pedido" href="https://wa.me/5574999999999" target="_blank" rel="noopener noreferrer">Começar meu pedido agora</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="entrega">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <span class="eyebrow">Informações</span>
+          <h2>Entrega e pagamento</h2>
+        </div>
+      </div>
+      <div class="deliv">
+        <section>
+          <h3>Horário de atendimento</h3>
+          <dl>
+            <dt>Segunda a sábado</dt><dd id="h-semana"></dd>
+            <dt>Domingos e feriados</dt><dd id="h-domingo"></dd>
+          </dl>
+          <p class="note">Pedidos feitos até as <span data-corte>16</span>h são entregues no mesmo dia. Depois disso, a entrega é na manhã seguinte.</p>
+        </section>
+
+        <section>
+          <h3>Bairros atendidos</h3>
+          <ul class="chips" id="bairros"></ul>
+          <p class="note">Não encontrou o seu bairro? Chame no WhatsApp e consulte a disponibilidade.</p>
+        </section>
+
+        <section>
+          <h3>Entrega</h3>
+          <ul>
+            <li><b>Taxa de entrega:</b> <span data-cfg="taxa"></span>, grátis em compras acima de <span data-cfg="gratisAcima"></span>.</li>
+            <li><b>Pedido mínimo:</b> <span data-cfg="pedidoMinimo"></span>.</li>
+            <li><b>Prazo médio:</b> de 1h a 3h após a confirmação do pedido.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>Pagamento e trocas</h3>
+          <ul>
+            <li>Pagamento <b>somente na entrega</b>, sem cobrança antecipada.</li>
+            <li>Aceitamos <b>Pix</b> e <b>cartão de débito ou crédito</b>. Levamos a maquininha.</li>
+            <li>O valor final é confirmado no WhatsApp antes do envio.</li>
+            <li>Itens vendidos por peso (frutas, legumes, carnes) podem ter pequena variação de valor. Você é avisado antes de fechar o pedido.</li>
+            <li>Algum item com problema? Avise na entrega ou em até 24h pelo WhatsApp e fazemos a troca ou o estorno.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <h3 data-nome>CST Supermercado</h3>
+        <p>Seu mercado online com atendimento humano e entrega rápida.</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <p>WhatsApp: <span data-cfg="whatsappExibicao"></span></p>
+        <p data-cfg="endereco"></p>
+      </div>
+      <div>
+        <h4>Atendimento</h4>
+        <p id="f-semana"></p>
+        <p id="f-domingo"></p>
+      </div>
+    </div>
+    <p class="legal">© <span id="ano">2026</span> <span data-nome>CST Supermercado</span>. Todos os direitos reservados. Preços e ofertas sujeitos à disponibilidade de estoque.</p>
+  </div>
+</footer>
+
+<a class="btn float" data-wa="pedido" href="https://wa.me/5574999999999" target="_blank" rel="noopener noreferrer" aria-label="Pedir pelo WhatsApp">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg>
+  <span>Pedir</span>
+</a>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO: troque só os valores abaixo.
+   Os valores de taxa, pedido mínimo, bairros e endereço são exemplos.
+   ============================================================ */
+const CONFIG = {
+  nome: "CST Supermercado",
+  whatsapp: "5574999999999",            // 55 + DDD + número, sem espaços ou traços
+  whatsappExibicao: "(74) 99999-9999",
+  endereco: "Rua Exemplo, 100, Centro, Sua Cidade/UF",
+  bairros: ["Centro", "Bairro 1", "Bairro 2", "Bairro 3", "Bairro 4", "Bairro 5"],
+  taxa: "R$ 5,00",
+  gratisAcima: "R$ 120,00",
+  pedidoMinimo: "R$ 40,00",
+  semana: [7, 20],                      // segunda a sábado: abre e fecha (horário de Brasília)
+  domingo: [8, 13],                     // domingos e feriados
+  corte: 16                             // pedidos até esta hora saem no mesmo dia
+};
+
+const OFERTAS = [
+  { titulo: "Hortifrúti", itens: [
+    ["Banana prata", "kg", "4,99"], ["Tomate italiano", "kg", "6,49"], ["Batata lavada", "kg", "4,29"],
+    ["Cebola", "kg", "3,99"], ["Alface crespa", "unidade", "2,50"], ["Laranja pera", "kg", "3,49"] ] },
+  { titulo: "Açougue", itens: [
+    ["Peito de frango", "kg", "17,90"], ["Carne moída de primeira", "kg", "32,90"], ["Contrafilé", "kg", "44,90"],
+    ["Linguiça toscana", "kg", "21,90"], ["Coxa e sobrecoxa", "kg", "11,90"] ] },
+  { titulo: "Bebidas", itens: [
+    ["Refrigerante", "2 L, sabores variados", "8,49"], ["Suco de caixinha", "1 L", "5,99"], ["Água mineral", "1,5 L", "2,49"],
+    ["Cerveja lata", "350 ml, unidade", "3,99"], ["Café torrado e moído", "500 g", "18,90"] ] },
+  { titulo: "Mercearia e limpeza", itens: [
+    ["Arroz branco tipo 1", "5 kg", "26,90"], ["Feijão carioca", "1 kg", "7,99"], ["Óleo de soja", "900 ml", "6,99"],
+    ["Açúcar refinado", "1 kg", "4,29"], ["Detergente líquido", "500 ml", "2,19"], ["Sabão em pó", "1,6 kg", "15,90"],
+    ["Papel higiênico", "12 rolos", "16,90"] ] }
+];
+
+const MSG = {
+  pedido: "Olá! Gostaria de fazer meu pedido de mercado.",
+  naolista: "Olá! Gostaria de pedir um produto que não está na lista."
+};
+
+const wa = t => "https://wa.me/" + CONFIG.whatsapp + "?text=" + encodeURIComponent(t);
+const $ = s => document.querySelector(s);
+const $$ = s => Array.prototype.slice.call(document.querySelectorAll(s));
+
+document.title = CONFIG.nome;
+$$("[data-nome]").forEach(el => { el.textContent = CONFIG.nome; });
+$$("[data-corte]").forEach(el => { el.textContent = CONFIG.corte; });
+$$("[data-cfg]").forEach(el => { el.textContent = CONFIG[el.getAttribute("data-cfg")]; });
+$$("[data-wa]").forEach(el => { el.href = wa(MSG[el.getAttribute("data-wa")]); });
+
+const h = n => n + "h";
+const txtSemana = "Segunda a sábado: " + h(CONFIG.semana[0]) + " às " + h(CONFIG.semana[1]);
+const txtDomingo = "Domingos e feriados: " + h(CONFIG.domingo[0]) + " às " + h(CONFIG.domingo[1]);
+$("#h-semana").textContent = h(CONFIG.semana[0]) + " às " + h(CONFIG.semana[1]);
+$("#h-domingo").textContent = h(CONFIG.domingo[0]) + " às " + h(CONFIG.domingo[1]);
+$("#f-semana").textContent = txtSemana;
+$("#f-domingo").textContent = txtDomingo;
+$("#bairros").innerHTML = CONFIG.bairros.map(b => "<li>" + b + "</li>").join("");
+$("#ano").textContent = new Date().getFullYear();
+
+function preco(p) {
+  const parts = p.split(",");
+  return '<span class="price"><span class="rs">R$</span><span class="int">' + parts[0] + '</span><span class="ct">,' + parts[1] + "</span></span>";
+}
+$("#sectors").innerHTML = OFERTAS.map(s =>
+  '<section class="sector"><h3>' + s.titulo + "</h3>" +
+  s.itens.map(i => {
+    const href = wa("Olá! Gostaria de pedir: " + i[0] + " (" + i[1] + ").");
+    return '<a class="item" href="' + href + '" target="_blank" rel="noopener noreferrer"><span class="info"><span class="nm">' +
+      i[0] + '</span><span class="un">' + i[1] + "</span></span>" + preco(i[2]) + "</a>";
+  }).join("") + "</section>"
+).join("");
+
+/* horário de Brasília (UTC-3, sem horário de verão) */
+const agora = new Date(Date.now() - 3 * 3600 * 1000);
+const dia = agora.getUTCDay();
+const hora = agora.getUTCHours() + agora.getUTCMinutes() / 60;
+
+const ate = (dia + 7) % 7 === 0 ? 0 : (7 - dia) % 7;
+const dom = new Date(agora.getTime() + ate * 86400000);
+$("#validade").textContent = "domingo, " + String(dom.getUTCDate()).padStart(2, "0") + "/" + String(dom.getUTCMonth() + 1).padStart(2, "0");
+
+const horasDe = d => (d === 0 ? CONFIG.domingo : CONFIG.semana);
+const hj = horasDe(dia);
+let st;
+if (hora >= hj[0] && hora < hj[1]) st = { open: true, text: "Atendendo agora, até " + h(hj[1]) };
+else if (hora < hj[0]) st = { open: false, text: "Fechado agora. Abrimos hoje às " + h(hj[0]) };
+else st = { open: false, text: "Fechado agora. Abrimos amanhã às " + h(horasDe((dia + 1) % 7)[0]) };
+const stEl = $("#status");
+stEl.hidden = false;
+stEl.className = "status" + (st.open ? " open" : "");
+stEl.querySelector("span").textContent = st.text;
+</script>
+
+</body>
+</html>
